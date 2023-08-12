@@ -111,3 +111,22 @@ class UserController{
 module.exports=new UserController;
 
 ```
+在路由的文件里面 user.router.js
+```js
+const Router =require ('koa-router')
+
+const router= new Router({prefix:'/users'})
+const {register,login} =require('../controller/user.controller')
+
+// Post/users
+router.post('/register',register)
+// 注册接口
+router.post('/login',login)
+
+module.exports= router
+```
+koa-body中间件包
+```
+npm install koa-body
+```
+在index.js 里面导入
