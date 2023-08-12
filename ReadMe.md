@@ -27,3 +27,87 @@ app.listen(3000,()=>{
     console.log('bye kiri');
 })
 ```
+## 添加路由
+* 安装路由
+```
+npm install koa-router
+```
+* 导入包
+* 实例化对象
+* 编写路由
+* 注册中间件
+```js
+// 导入包
+const Koa =require('koa');
+const Router=require('koa-router');
+const {APP_PORT} =require('./config/config.default')
+// 实例化router
+const app =new Koa();
+const indexRouter= new Router();
+const userRouter = new Router();
+//注册路由
+indexRouter.get('/',(ctx,next)=>{
+  ctx.body='hello index';
+});
+userRouter.get('/user',(ctx,next)=>{
+  ctx.body='hello user';
+})
+//创建中间件
+app
+.use(indexRouter.routes())
+.use(userRouter.routes())
+   
+
+app.listen(APP_PORT,()=>{
+    console.log('bye kiri app run on');
+})
+```
+拆分组件：创建一个router 组件
+```js
+//创建组件对app进行拆分,在router文件夹下安装 config.default.js
+const Router =require ('koa-router')
+
+const router= new Router({prefix:'/users'})
+
+// GET/users/
+
+router.get('/',(ctx,next)=>{
+    ctx.body='hello users'
+})
+
+module.exports= router
+
+```
+
+将index 和 main.js 进行拆分
+创建一个app文件夹在里面进行写入一个index.js 主要写入一些中间件
+```js
+const Koa =require('koa');
+const userRouter=require('../router/user.router');
+
+// 实例化router
+const app =new Koa();
+
+
+// 创建中间件
+app.use(userRouter.routes())
+
+// 导出app对象
+module.exports=app;
+
+```
+路由和控制器的拆分,创建一个controller文件夹并且创建一个 user.controller文件，这样就可以代替路由注册的功能。
+```js
+class UserController{
+    async register(ctx,next){
+        ctx.body='用户注册成功';
+    }
+
+    async login(ctx,next){
+        ctx.body='登录成功';
+    }
+}
+
+module.exports=new UserController;
+
+```
