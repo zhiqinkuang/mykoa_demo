@@ -125,8 +125,75 @@ router.post('/login',login)
 
 module.exports= router
 ```
+## 数据库操作
 koa-body中间件包
 ```
 npm install koa-body
 ```
 在index.js 里面导入
+
+```js
+// 在index.js里面进行注册
+const{ koaBody }=require('koa-body');
+app.use(koaBody()); // 在所有的中件之前注册
+```
+
+安装数据库操作包  sequelize ORM (对象关系映射)数据库工具
+数据表映射一个类，数据行对应一个对象
+
+mysql2 数据库操作包
+```
+npm i mysql2 sequelize
+```
+创建一个db文件夹，创建一个seq.js 文件
+```js
+const {Sequelize} =require('sequelize');
+// 实例化对象
+const seq =new Sequelize('node_demo','root','1234',{
+    host:'localhost',
+    dialect:'mysql',
+});
+
+// // 测试数据库
+// seq.authenticate().then(()=>{
+//     console.log('数据库连接成功')
+// }).catch((err)=>{
+//     console.log(err);
+// })
+
+module.exports=seq;
+```
+重构为环境变量配置数据库信息
+
+.env 文件里面添加
+```
+MYSQL_HOST=localhost
+MYSQL_PORT=3306
+MYSQL_USER=root
+MYSQL_PW=1234
+MYSQL_DB=node_demo
+```
+```js
+const {Sequelize} =require('sequelize');
+const{MYSQL_HOST,
+    MYSQL_PORT,
+    MYSQL_USER,
+    MYSQL_PW,
+    MYSQL_DB}= require('../config/config.default')
+// 实例化对象
+const seq =new Sequelize(MYSQL_DB,MYSQL_USER,MYSQL_PW,{
+    host:MYSQL_HOST,
+    dialect:'mysql',
+});
+
+// 测试数据库
+seq.authenticate().then(()=>{
+    console.log('数据库连接成功')
+}).catch((err)=>{
+    console.log(err);
+})
+
+// module.exports=seq;
+```
+
+
