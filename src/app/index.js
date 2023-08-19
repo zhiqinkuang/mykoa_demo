@@ -1,7 +1,9 @@
 const Koa =require('koa');
 const{ koaBody }=require('koa-body');
-const userRouter=require('../router/user.router');
+const router= require('../router/index');
+
 const errHandler = require('./errHandler');
+
 //导入errHeadler
 
 
@@ -11,7 +13,10 @@ const app =new Koa();
 
 //创建中间件
 app.use(koaBody()); // 在所有的中件之前注册
-app.use(userRouter.routes());
+app.use(router.routes())
+.use(router.allowedMethods());
+
+
 
 // 导出app对象
 app.on('error',errHandler);

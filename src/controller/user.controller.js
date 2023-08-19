@@ -1,5 +1,9 @@
-const {createUser} =require('../service/user.service')
-const {userRegisterError}=require('../constant/err.type')
+const {createUser,getUserInfo,updateUserInfo} =require('../service/user.service')
+const {userRegisterError,userLoginError}=require('../constant/err.type')
+// 发送tonken
+const {JWT_SECRET}=require('../config/config.default')
+const jwt =require('jsonwebtoken')
+
 class UserController{
     async register(ctx,next){
         // 1获取post数据
@@ -33,7 +37,7 @@ class UserController{
     
         // 3返回结果
         ctx.body={
-            code:0,
+            code:200,
             message:'用户注册成功',
             result:{
                 id: res.id,
@@ -49,7 +53,43 @@ class UserController{
     }
 
     async login(ctx,next){
-        ctx.body='登录成功';
+        const { user_name }=ctx.request.body;
+       try{
+        const {password,...res}=await getUserInfo(user_name);
+        ctx.body={
+            code:200,
+            message:'登录成功',
+            result:{
+                id: jwt.sign(res,JWT_SECRET,{expiresIn: '5d'}),
+            },
+         }
+       }catch(e){
+        console.error('用户登录失败',e);
+        ctx.app.emit('error',userLoginError,ctx);
+       }
+      
+    }
+
+    // 修改密码
+   async changePassword(ctx,next){
+     // 获取修改信息
+     const id=ctx.state.user.id
+     const password=ctx.request.body.password
+     console.log(id,password)
+     // 操作数据库
+     if(await updateUserInfo({id,password})){
+        ctx.body ={
+            code:200,
+            message:'密码修改成功',
+            result:''
+        }
+     }else{
+        ctx.body={
+            code:'1007',
+            message:'密码修改失败',
+            result:''
+        }
+     }
     }
 }
 
