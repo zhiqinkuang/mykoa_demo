@@ -55,9 +55,11 @@ class UserController{
     async login(ctx,next){
         const { user_name }=ctx.request.body;
        try{
-        const {password,...res}=await getUserInfo(user_name);
+        const {password,...res}=await getUserInfo({user_name});
+        
         ctx.body={
             code:200,
+            user_name,
             message:'登录成功',
             result:{
                 id: jwt.sign(res,JWT_SECRET,{expiresIn: '5d'}),
@@ -69,7 +71,6 @@ class UserController{
        }
       
     }
-
     // 修改密码
    async changePassword(ctx,next){
      // 获取修改信息

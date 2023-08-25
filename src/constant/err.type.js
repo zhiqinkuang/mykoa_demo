@@ -40,6 +40,50 @@ module.exports = {
     code: '10102',
     message: 'token无效',
     result: '',
+  },
+// 用户认证权限
+  hasNotAdminPermission:{
+    code:'10103',
+    message:'没有管理员权限',
+    result:''
+  },
+  // 用户上传错误
+  fileUploadError:{
+    code:'10201',
+    message:'商品图片上传失败',
+    result:''
+  },
+  // 文件类型错误
+  unSupportFileType:{
+    code:'10202',
+    message:'上传类型错误',
+    result:''
+  },
+   goodsFormatError:{
+    code:'10203',
+    message:'参数校验错误',
+    result:''
+  },
+  publishGoodsError:{
+    code:'10204',
+    message:'发布商品失败',
+    result:''
+  },
+  invalidIdError:{
+    code:'10205',
+    message:'商品不存在',
+    result:''
+  },
+  updateGoodsError:{
+    code:'10206',
+    message:'更新商品失败',
+    result:''
+  },
+  addtoCartError:{
+    code:'10207',
+    message:'加入购物车失败',
+    result:''
   }
+  
  
 }

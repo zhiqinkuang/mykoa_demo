@@ -15,7 +15,7 @@ class UserService {
         user_name && Object.assign(whereOpt, { user_name })
         password && Object.assign(whereOpt, { password })
         is_admin && Object.assign(whereOpt, { is_admin })
-
+        
         const res = await User.findOne({
             attributes: ['id', 'user_name', 'password', 'is_admin'],
             where: whereOpt,
@@ -26,17 +26,18 @@ class UserService {
     }
     // 更新用户信息
     async updateUserInfo({ id, user_name, password, is_admin }) {
-        const whereOpt = {}
+        const whereOpt = {id}
         const newUser ={}
 
-        id && Object.assign(whereOpt, { id })
-        user_name && Object.assign(whereOpt, { user_name })
-        password && Object.assign(whereOpt, { password })
-        is_admin && Object.assign(whereOpt, { is_admin })
+        user_name && Object.assign(newUser, { user_name })
+        password && Object.assign(newUser, { password })
+        is_admin && Object.assign(newUser, { is_admin })
+
         const res = await User.update(newUser, {
             where: whereOpt,
         }
         );
+    
         return res[0]>0  ? true : false;
     }
 }

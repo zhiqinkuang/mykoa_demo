@@ -44,11 +44,13 @@ const verifyUser = async (ctx, next) => {
 // 密码加密
 const cryptPassword = async (ctx, next) => {
   const { password } = ctx.request.body
+ 
   // 加盐
   const salt = bcrypt.genSaltSync(10);
   // 通过hash加密
   const hash = bcrypt.hashSync(password, salt)
   ctx.request.body.password = hash
+
   await next()
 }
 
