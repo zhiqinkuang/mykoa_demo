@@ -8,6 +8,7 @@ const{MYSQL_HOST,
 const seq =new Sequelize(MYSQL_DB,MYSQL_USER,MYSQL_PW,{
     host:MYSQL_HOST,
     dialect:'mysql',
+    timezone: '+08:00', 
 });
 
 // 测试数据库

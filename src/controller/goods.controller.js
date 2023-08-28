@@ -1,7 +1,7 @@
 const path =require('path')
 const {createGoods,updateGoods,removeGoods,restoreGoods,findGoods}= require('../service/goods.service')
 const {fileUploadError,unSupportFileType,publishGoodsError,invalidIdError}=require('../constant/err.type')
-const { log } = require('console')
+
 
 class GoodsControl{
     async upload(ctx,next){

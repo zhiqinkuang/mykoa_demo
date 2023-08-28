@@ -2,6 +2,7 @@ const   Goods=require('../model/goods.model')
 class GoodService{
     async createGoods(goods){   
      const res=await Goods.create(goods)
+     
      return res.dataValues
     }
 

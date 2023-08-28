@@ -21,8 +21,9 @@ app.use(koaBody({
     formidable:{
         // 这里不可以写相对地址，用绝对路径进行调用
         uploadDir:path.join(__dirname,'../uploads'),
-        keepExtensions:true
-    }
+        keepExtensions:true,
+    },
+    parsedMethods:['POST','PUT','PATCH','DELETE'],
 })); // 在所有的中件之前注册
 app.use(router.routes())
 .use(router.allowedMethods());

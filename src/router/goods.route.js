@@ -6,7 +6,7 @@ const {validator} =require('../middleware/goods.middleware');
 // 商品上传接口
 router.post('/upload',auth,authAdmin ,upload)
 // 发布商品接口
-router.post('/',auth,authAdmin,validator,create)
+router.post('/publish',auth,authAdmin,validator,create)
 // 更新商品接口
 router.put('/:id',auth,authAdmin,validator,update)
 //强制删除商品
